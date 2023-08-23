@@ -4,6 +4,7 @@ from .xml_reader import LCECXMLReader
 from .sdo import LCECSDO
 from .command import LCECCommand, LCECSimCommand
 from lxml import etree
+from .data_types import HALDataType
 
 
 class LCECConfig(EtherCATConfig):
@@ -22,6 +23,7 @@ class LCECConfig(EtherCATConfig):
         The `bus_configs` should be a dictionary of
         `master_idx:(appTimePeriod, refClockSyncCycles)`.
         """
+
         # Convert bus_configs keys to ints (YAML wants str type)
         for key in list(bus_configs):
             bus_configs[str(key)] = bus_configs.pop(key)
@@ -94,7 +96,11 @@ class LCECConfig(EtherCATConfig):
                 for entry in sm_data["pdo_mapping"]["entries"]:
                     sdo = dev.sdo(entry["index"])
                     if "scale" in entry:
-                        dt = cls.data_type_class.float
+                        #if the name starts with UINT, use cls.data_type_class.float-unsigned
+                        if sdo.data_type.name.startswith("UINT"):
+                            dt = cls.data_type_class.ufloat
+                        else:
+                            dt = cls.data_type_class.float
                         num_bits = sdo.data_type.num_bits
                     else:
                         dt = sdo.data_type

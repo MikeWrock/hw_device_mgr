@@ -16,6 +16,7 @@ class HALDataType(DataType, HALMixin):
         uint32=dict(hal_type=HALMixin.HAL_U32),
         float=dict(hal_type=HALMixin.HAL_FLOAT),
         double=dict(hal_type=HALMixin.HAL_FLOAT),
+        float_unsigned=dict(hal_type="float-unsigned"),
         # No HAL_STR type
     )
     have_64 = hasattr(HALMixin, "HAL_S64")

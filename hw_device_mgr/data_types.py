@@ -256,3 +256,11 @@ class StringType(DataType, str):
     num_bits = None  # Variable length
 
     __str__ = str.__str__
+
+
+class UFloatType(DataType, float):
+    shared_name = "ufloat"
+    shared_name_re = r"ufloat"
+    base_type = float
+    num_bits = 32
+    hal_type = "float-unsigned"
