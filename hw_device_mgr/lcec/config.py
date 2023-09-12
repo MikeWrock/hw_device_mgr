@@ -23,7 +23,6 @@ class LCECConfig(EtherCATConfig):
         The `bus_configs` should be a dictionary of
         `master_idx:(appTimePeriod, refClockSyncCycles)`.
         """
-
         # Convert bus_configs keys to ints (YAML wants str type)
         for key in list(bus_configs):
             bus_configs[str(key)] = bus_configs.pop(key)
@@ -96,7 +95,7 @@ class LCECConfig(EtherCATConfig):
                 for entry in sm_data["pdo_mapping"]["entries"]:
                     sdo = dev.sdo(entry["index"])
                     if "scale" in entry:
-                        #if the name starts with UINT, use cls.data_type_class.float-unsigned
+                        #To convert a UINT to float, use cls.data_type_class.ufloat
                         if sdo.data_type.name.startswith("UINT"):
                             dt = cls.data_type_class.ufloat
                         else:
