@@ -4,7 +4,6 @@ from ..hal.data_types import HALDataType
 
 class LCECDataType(EtherCATDataType, HALDataType):
     """Data types for HAL and IgH Master."""
-
     subtype_prefix = "LCEC"
     subtype_data = dict(
         bit=dict(igh_type="bool"),
@@ -17,6 +16,7 @@ class LCECDataType(EtherCATDataType, HALDataType):
         float=dict(igh_type="float"),
         double=dict(igh_type="double"),
         str=dict(igh_type="string"),
+        ufloat=dict(igh_type="float-unsigned"),
     )
     if HALDataType.have_64:
         # Machinekit HAL has 64-bit int types, but not LCNC

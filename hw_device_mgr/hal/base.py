@@ -18,7 +18,7 @@ class HALMixin:
             continue
         locals()[name] = val
         _hal_enum_to_str_map[val] = name
-
+    _hal_enum_to_str_map["float-unsigned"] = "HAL_float-unsigned"
     @classmethod
     def hal_enum(cls, x):
         """

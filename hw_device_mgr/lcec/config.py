@@ -4,6 +4,7 @@ from .xml_reader import LCECXMLReader
 from .sdo import LCECSDO
 from .command import LCECCommand, LCECSimCommand
 from lxml import etree
+from .data_types import HALDataType
 
 
 class LCECConfig(EtherCATConfig):
@@ -94,7 +95,11 @@ class LCECConfig(EtherCATConfig):
                 for entry in sm_data["pdo_mapping"]["entries"]:
                     sdo = dev.sdo(entry["index"])
                     if "scale" in entry:
-                        dt = cls.data_type_class.float
+                        #To convert a UINT to float, use cls.data_type_class.ufloat
+                        if sdo.data_type.name.startswith("UINT"):
+                            dt = cls.data_type_class.ufloat
+                        else:
+                            dt = cls.data_type_class.float
                         num_bits = sdo.data_type.num_bits
                     else:
                         dt = sdo.data_type
